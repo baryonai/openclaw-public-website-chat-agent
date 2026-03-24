@@ -1,37 +1,31 @@
 import Link from "next/link";
+import { headers } from "next/headers";
+import { detectLocale, getDict } from "../lib/i18n";
 
-const features = [
-  {
-    title: "Website widget ready",
-    description: "A simple chat experience you can adapt into an embeddable support or sales widget.",
-  },
-  {
-    title: "API route included",
-    description: "A stubbed /api/chat endpoint is ready for wiring to OpenAI, Anthropic, or your own backend.",
-  },
-  {
-    title: "Tiny MVP footprint",
-    description: "Just enough UI and structure to run locally, demo quickly, and extend later.",
-  },
-];
+export default async function HomePage() {
+  const hdrs = await headers();
+  const locale = detectLocale(hdrs.get("accept-language"));
+  const t = getDict(locale);
 
-export default function HomePage() {
+  const features = [
+    { title: t.feat1Title, description: t.feat1Desc },
+    { title: t.feat2Title, description: t.feat2Desc },
+    { title: t.feat3Title, description: t.feat3Desc },
+  ];
+
   return (
     <main className="landing-page">
       <section className="hero card">
-        <span className="eyebrow">Minimal MVP</span>
-        <h1>Launch a website chat agent fast.</h1>
-        <p className="hero-copy">
-          This starter gives you a clean landing page, a lightweight chat UI, and a
-          working API route stub so you can start building your own website assistant.
-        </p>
+        <span className="eyebrow">{t.eyebrow}</span>
+        <h1>{t.heroTitle}</h1>
+        <p className="hero-copy">{t.heroCopy}</p>
 
         <div className="hero-actions">
           <Link className="button primary" href="/chat">
-            Open chat demo
+            {t.ctaChat}
           </Link>
           <a className="button secondary" href="#features">
-            See what&apos;s included
+            {t.ctaFeatures}
           </a>
         </div>
       </section>

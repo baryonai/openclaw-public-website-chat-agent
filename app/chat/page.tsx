@@ -1,23 +1,34 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { type Dict, type Locale, getDict } from "../../lib/i18n";
 
 type ChatMessage = {
   role: "user" | "assistant";
   content: string;
 };
 
-const initialMessages: ChatMessage[] = [
-  {
-    role: "assistant",
-    content: "Hi — I’m your website chat agent MVP. Ask a question to test the flow.",
-  },
-];
+function useLocaleDict(): Dict {
+  const [dict, setDict] = useState<Dict>(getDict("ko"));
+
+  useEffect(() => {
+    const locale = (document.body.dataset.locale as Locale) || "ko";
+    setDict(getDict(locale));
+  }, []);
+
+  return dict;
+}
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+  const t = useLocaleDict();
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Set welcome message after dict is loaded
+  useEffect(() => {
+    setMessages([{ role: "assistant", content: t.chatWelcome }]);
+  }, [t.chatWelcome]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,9 +44,7 @@ export default function ChatPage() {
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: nextMessages }),
       });
 
@@ -45,17 +54,13 @@ export default function ChatPage() {
         ...nextMessages,
         {
           role: "assistant",
-          content:
-            data.reply ?? data.error ?? "The chat endpoint returned an unexpected response.",
+          content: data.reply ?? data.error ?? t.chatUnexpected,
         },
       ]);
     } catch {
       setMessages([
         ...nextMessages,
-        {
-          role: "assistant",
-          content: "Couldn’t reach the API route. Make sure the dev server is running.",
-        },
+        { role: "assistant", content: t.chatError },
       ]);
     } finally {
       setIsLoading(false);
@@ -67,10 +72,10 @@ export default function ChatPage() {
       <section className="chat-shell card">
         <div className="chat-header">
           <div>
-            <span className="eyebrow">Demo chat</span>
-            <h1>Website Chat Agent</h1>
+            <span className="eyebrow">{t.chatEyebrow}</span>
+            <h1>{t.chatTitle}</h1>
           </div>
-          <p>Messages are sent to a local Next.js API route stub.</p>
+          <p>{t.chatSubtitle}</p>
         </div>
 
         <div className="chat-messages">
@@ -79,7 +84,9 @@ export default function ChatPage() {
               key={`${message.role}-${index}`}
               className={`message ${message.role === "user" ? "message-user" : "message-assistant"}`}
             >
-              <span className="message-role">{message.role === "user" ? "You" : "Agent"}</span>
+              <span className="message-role">
+                {message.role === "user" ? t.chatYou : t.chatAgent}
+              </span>
               <p>{message.content}</p>
             </div>
           ))}
@@ -89,11 +96,11 @@ export default function ChatPage() {
           <input
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask about pricing, support, onboarding..."
+            placeholder={t.chatPlaceholder}
             aria-label="Chat message"
           />
           <button className="button primary" type="submit" disabled={isLoading}>
-            {isLoading ? "Sending..." : "Send"}
+            {isLoading ? t.chatSending : t.chatSend}
           </button>
         </form>
       </section>
