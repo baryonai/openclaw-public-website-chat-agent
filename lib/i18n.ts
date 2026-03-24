@@ -14,12 +14,12 @@ const dict = {
     ctaChat: "채팅 데모 열기",
     ctaFeatures: "포함된 기능 보기",
 
-    feat1Title: "웹사이트 위젯 준비 완료",
-    feat1Desc: "고객 지원이나 세일즈 위젯으로 바로 활용할 수 있는 간결한 채팅 경험입니다.",
-    feat2Title: "API 라우트 포함",
-    feat2Desc: "OpenClaw 게이트웨이에 연결된 /api/chat 엔드포인트가 포함되어 있습니다.",
-    feat3Title: "작은 MVP 구성",
-    feat3Desc: "로컬에서 실행하고, 빠르게 데모하고, 나중에 확장하기에 딱 알맞은 구조입니다.",
+    feat1Title: "NemoClaw 샌드박스 지원",
+    feat1Desc: "NVIDIA NemoClaw으로 격리된 환경에서 안전하게 에이전트를 운영할 수 있습니다.",
+    feat2Title: "OpenClaw 게이트웨이 연동",
+    feat2Desc: "WebSocket 프로토콜로 게이트웨이에 직접 연결하여 실시간 채팅을 제공합니다.",
+    feat3Title: "한국어/영어 자동 감지",
+    feat3Desc: "브라우저 언어 설정에 따라 한국어(기본) 또는 영어로 자동 전환됩니다.",
 
     // chat
     chatEyebrow: "데모 채팅",
@@ -45,12 +45,12 @@ const dict = {
     ctaChat: "Open chat demo",
     ctaFeatures: "See what\u2019s included",
 
-    feat1Title: "Website widget ready",
-    feat1Desc: "A simple chat experience you can adapt into an embeddable support or sales widget.",
-    feat2Title: "API route included",
-    feat2Desc: "A /api/chat endpoint connected to the OpenClaw gateway is included.",
-    feat3Title: "Tiny MVP footprint",
-    feat3Desc: "Just enough UI and structure to run locally, demo quickly, and extend later.",
+    feat1Title: "NemoClaw sandbox support",
+    feat1Desc: "Run your agent safely in an isolated NVIDIA NemoClaw sandbox environment.",
+    feat2Title: "OpenClaw gateway integration",
+    feat2Desc: "Connects directly to the gateway via WebSocket for real-time chat.",
+    feat3Title: "Auto language detection",
+    feat3Desc: "Automatically switches between Korean (default) and English based on browser settings.",
 
     chatEyebrow: "Demo chat",
     chatTitle: "Website Chat Agent",
